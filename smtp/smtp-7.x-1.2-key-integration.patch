@@ -1,0 +1,33 @@
+diff --git a/smtp.admin.inc b/smtp.admin.inc
+index cee7c8c..6e3fb41 100644
+--- a/smtp.admin.inc
++++ b/smtp.admin.inc
+@@ -121,6 +121,12 @@ function smtp_admin_settings() {
+     '#description'   => t('SMTP password. If you have already entered your password before, you should leave this field blank, unless you want to change the stored password.'),
+   );
+ 
++  // Use the key element, if it is available.
++  if (array_key_exists('key', module_invoke_all('element_info'))) {
++    $form['auth']['smtp_password']['#type'] = 'key';
++    unset($form['auth']['smtp_password']['#description']);
++  }
++
+   $form['email_options'] = array(
+     '#type'  => 'fieldset',
+     '#title' => t('E-mail options'),
+diff --git a/smtp.mail.inc b/smtp.mail.inc
+index b220eeb..01c6bd7 100644
+--- a/smtp.mail.inc
++++ b/smtp.mail.inc
+@@ -481,6 +481,11 @@ class SmtpMailSystem implements MailSystemInterface {
+     $username = variable_get('smtp_username', '');
+     $password = variable_get('smtp_password', '');
+ 
++    // Use the Key module, if it is enabled.
++    if (module_exists('key') && $key_value = key_get_key($password)) {
++      $password = $key_value;
++    }
++
+     // If username and password are given, use SMTP authentication.
+     if ($username != '' && $password != '') {
+       $mailer->SMTPAuth = TRUE;
