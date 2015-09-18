@@ -1,0 +1,70 @@
+diff --git a/commerce_paypal.module b/commerce_paypal.module
+index 8767833..9bc2a94 100644
+--- a/commerce_paypal.module
++++ b/commerce_paypal.module
+@@ -315,6 +315,11 @@ function commerce_paypal_api_request($payment_method, $nvp = array(), $order = N
+     'VERSION' => '76.0',
+   );
+ 
++  // Use the Key module, if it is enabled.
++  if (module_exists('key') && $key_value = key_get_key($nvp['PWD'])) {
++    $nvp['PWD'] = $key_value;
++  }
++
+   // Allow modules to alter parameters of the API request.
+   drupal_alter('commerce_paypal_api_request', $nvp, $order, $payment_method);
+ 
+diff --git a/modules/ec/commerce_paypal_ec.module b/modules/ec/commerce_paypal_ec.module
+index f6ea1b8..9934cc2 100644
+--- a/modules/ec/commerce_paypal_ec.module
++++ b/modules/ec/commerce_paypal_ec.module
+@@ -289,7 +289,8 @@ function commerce_paypal_ec_settings_form($settings = array()) {
+     '#default_value' => $settings['api_username'],
+   );
+   $form['api_password'] = array(
+-    '#type' => 'textfield',
++    // Use the key element, if it is available.
++    '#type' => (array_key_exists('key', module_invoke_all('element_info'))) ? 'key' : 'textfield',
+     '#title' => t('API password'),
+     '#default_value' => $settings['api_password'],
+   );
+diff --git a/modules/payflow/commerce_payflow.module b/modules/payflow/commerce_payflow.module
+index 3d34fa7..9eae830 100644
+--- a/modules/payflow/commerce_payflow.module
++++ b/modules/payflow/commerce_payflow.module
+@@ -356,7 +356,8 @@ function commerce_payflow_link_settings_form($settings = array(), $payment_metho
+     '#required' => TRUE,
+   );
+   $form['password'] = array(
+-    '#type' => 'password',
++    // Use the key element, if it is available.
++    '#type' => (array_key_exists('key', module_invoke_all('element_info'))) ? 'key' : 'textfield',
+     '#title' => t('Password'),
+     '#description' => t('The password created for the user specified in the previous textfield.'),
+     '#default_value' => $settings['password'],
+@@ -1254,6 +1255,11 @@ function commerce_payflow_api_request($payment_method, $api, $nvp = array(), $or
+     'MODE' => $mode == 'test' ? 'TEST' : 'LIVE',
+   );
+ 
++  // Use the Key module if it is enabled.
++  if (module_exists('key') && $key_value = key_get_key($nvp['PWD'])) {
++    $nvp['PWD'] = $key_value;
++  }
++
+   // Allow modules to alter parameters of the API request.
+   drupal_alter('commerce_payflow_api_request', $nvp, $order, $payment_method);
+ 
+diff --git a/modules/wpp/commerce_paypal_wpp.module b/modules/wpp/commerce_paypal_wpp.module
+index 1916792..07049c8 100644
+--- a/modules/wpp/commerce_paypal_wpp.module
++++ b/modules/wpp/commerce_paypal_wpp.module
+@@ -109,7 +109,8 @@ function commerce_paypal_wpp_settings_form($settings = array()) {
+     '#default_value' => $settings['api_username'],
+   );
+   $form['api_password'] = array(
+-    '#type' => 'textfield',
++    // Use the key element, if it is available.
++    '#type' => (array_key_exists('key', module_invoke_all('element_info'))) ? 'key' : 'textfield',
+     '#title' => t('API password'),
+     '#default_value' => $settings['api_password'],
+   );
