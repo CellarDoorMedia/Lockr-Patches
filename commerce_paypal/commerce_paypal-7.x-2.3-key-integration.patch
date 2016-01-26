@@ -7,7 +7,7 @@ index 8767833..9bc2a94 100644
    );
  
 +  // Use the Key module, if it is enabled.
-+  if (module_exists('key') && $key_value = key_get_key($nvp['PWD'])) {
++  if (module_exists('key') && $key_value = key_get_key_value($nvp['PWD'])) {
 +    $nvp['PWD'] = $key_value;
 +  }
 +
@@ -47,7 +47,7 @@ index 3d34fa7..9eae830 100644
    );
  
 +  // Use the Key module if it is enabled.
-+  if (module_exists('key') && $key_value = key_get_key($nvp['PWD'])) {
++  if (module_exists('key') && $key_value = key_get_key_value($nvp['PWD'])) {
 +    $nvp['PWD'] = $key_value;
 +  }
 +
