@@ -17,7 +17,7 @@ index db162ef..40604d4 100644
    );
  
 +// Use the Key module, if it is enabled.
-+  if (module_exists('key') && $key_value = key_get_key($nvp['x_tran_key'])) {
++  if (module_exists('key') && $key_value = key_get_key_value($nvp['x_tran_key'])) {
 +    $nvp['x_tran_key'] = $key_value;
 +  }
 +
