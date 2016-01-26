@@ -22,7 +22,7 @@ index 10b02ed..3828ddc 100644
    $api_key = variable_get('mailchimp_api_key', '');
 +
 +  // Use the Key module, if it is enabled.
-+  if (module_exists('key') && $key_value = key_get_key($api_key)) {
++  if (module_exists('key') && $key_value = key_get_key_value($api_key)) {
 +    $api_key = $key_value;
 +  }
 +
