@@ -8,7 +8,7 @@ index 34f24e0..d3435aa 100644
        $this->dest_url['pasv'] = $this->get_pasv();
 +
 +      // Use the Key module, if it is enabled.
-+      if (module_exists('key') && $key_value = key_get_key($this->dest_url['pass'])) {
++      if (module_exists('key') && $key_value = key_get_key_value($this->dest_url['pass'])) {
 +        $this->dest_url['pass'] = $key_value;
 +      }
 +
@@ -42,7 +42,7 @@ index a929f07..3692909 100644
  function backup_migrate_nodesquirrel_get_destination($secret_key) {
    if ($secret_key) {
 +    // Use the Key module, if it is enabled.
-+    if (module_exists('key') && $key_value = key_get_key($secret_key)) {
++    if (module_exists('key') && $key_value = key_get_key_value($secret_key)) {
 +      $secret_key = $key_value;
 +    }
 +
@@ -66,7 +66,7 @@ index a929f07..3692909 100644
      $out['nodesquirrel'] = backup_migrate_create_destination('nodesquirrel', array('machine_name' => 'nodesquirrel'));
      if ($secret_key = variable_get('nodesquirrel_secret_key', '')) {
 +      // Use the Key module, if it is enabled.
-+      if (module_exists('key') && $key_value = key_get_key($secret_key)) {
++      if (module_exists('key') && $key_value = key_get_key_value($secret_key)) {
 +        $secret_key = $key_value;
 +      }
        $out['nodesquirrel']->settings['secret_key'] = $secret_key;
@@ -78,7 +78,7 @@ index a929f07..3692909 100644
        $key = trim($form_state['values']['nodesquirrel_secret_key']);
 +
 +      // Use the Key module, if it is enabled.
-+      if (module_exists('key') && $key_value = key_get_key($key)) {
++      if (module_exists('key') && $key_value = key_get_key_value($key)) {
 +        $key = $key_value;
 +      }
 +
@@ -101,7 +101,7 @@ index a929f07..3692909 100644
      $key = trim($form_state['values']['settings']['secret_key']);
 +
 +    // Use the Key module, if it is enabled.
-+    if (module_exists('key') && $key_value = key_get_key($key)) {
++    if (module_exists('key') && $key_value = key_get_key_value($key)) {
 +      $key = $key_value;
 +    }
 +
@@ -113,7 +113,7 @@ index a929f07..3692909 100644
    function get_user_pass() {
      $key = $this->settings('secret_key');
 +    // Use the Key module, if it is enabled.
-+    if (module_exists('key') && $key_value = key_get_key($key)) {
++    if (module_exists('key') && $key_value = key_get_key_value($key)) {
 +      $key = $key_value;
 +    }
      // The username is the first 32 chars.
@@ -140,7 +140,7 @@ index c049806..4a8d4cf 100644
          require_once $path . '/S3.php';
          if (!$this->s3 && !empty($this->dest_url['user'])) {
 +          // Use the Key module, if it is enabled.
-+          if (module_exists('key') && $key_value = key_get_key($this->dest_url['pass'])) {
++          if (module_exists('key') && $key_value = key_get_key_value($this->dest_url['pass'])) {
 +            $this->dest_url['key_name'] = $this->dest_url['pass'];
 +            $this->dest_url['pass'] = $key_value;
 +          }
