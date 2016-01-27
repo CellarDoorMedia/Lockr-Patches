@@ -8,7 +8,7 @@ index db162ef..40604d4 100644
    $form['tran_key'] = array(
 -    '#type' => 'textfield',
 +    // Use the key element, if it is available.
-+    '#type' => (array_key_exists('key', module_invoke_all('element_info'))) ? 'key' : 'textfield',
++    '#type' => (array_key_exists('key_select', module_invoke_all('element_info'))) ? 'key_select' : 'textfield',
      '#title' => t('Transaction Key'),
      '#description' => t('Your Transaction Key can be found on the same screen as your API Login ID. However, it will not be readily displayed. You must answer your security question and submit a form to see your Transaction Key.'),
      '#default_value' => $settings['tran_key'],
