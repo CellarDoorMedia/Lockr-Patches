@@ -7,8 +7,8 @@ index cee7c8c..6e3fb41 100644
    );
  
 +  // Use the key element, if it is available.
-+  if (array_key_exists('key', module_invoke_all('element_info'))) {
-+    $form['auth']['smtp_password']['#type'] = 'key';
++  if (array_key_exists('key_select', module_invoke_all('element_info'))) {
++    $form['auth']['smtp_password']['#type'] = 'key_select';
 +    unset($form['auth']['smtp_password']['#description']);
 +  }
 +
