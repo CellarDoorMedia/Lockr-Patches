@@ -24,7 +24,7 @@ index f6ea1b8..9934cc2 100644
    $form['api_password'] = array(
 -    '#type' => 'textfield',
 +    // Use the key element, if it is available.
-+    '#type' => (array_key_exists('key', module_invoke_all('element_info'))) ? 'key' : 'textfield',
++    '#type' => (array_key_exists('key_select', module_invoke_all('element_info'))) ? 'key_select' : 'textfield',
      '#title' => t('API password'),
      '#default_value' => $settings['api_password'],
    );
