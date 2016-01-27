@@ -54,8 +54,8 @@ index a929f07..3692909 100644
      '#default_value' => $key,
    );
 +  // Use the key element, if it is available.
-+  if (array_key_exists('key', module_invoke_all('element_info'))) {
-+    $form['nodesquirrel_credentials']['nodesquirrel_secret_key']['#type'] = 'key';
++  if (array_key_exists('key_select', module_invoke_all('element_info'))) {
++    $form['nodesquirrel_credentials']['nodesquirrel_secret_key']['#type'] = 'key_select';
 +    unset($form['nodesquirrel_credentials']['nodesquirrel_secret_key']['#size']);
 +  }
    if (empty($key)) {
