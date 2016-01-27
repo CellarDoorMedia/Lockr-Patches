@@ -13,13 +13,29 @@ index bb3edc5..c9c5072 100644
      '#default_value' => $key,
 +    '#key_filters' => array('type' => 'mandrill_api'),
    );
- 
+
    $library = libraries_detect('mandrill');
 diff --git a/mandrill.module b/mandrill.module
-index 0c7428f..0b40278 100644
+index 0c7428f..3aa823c 100644
 --- a/mandrill.module
 +++ b/mandrill.module
-@@ -85,6 +85,9 @@ function mandrill_libraries_info() {
+@@ -77,6 +77,15 @@ function mandrill_libraries_info() {
+ }
+
+ /**
++ * Implements hook_ctools_plugin_directory().
++ */
++function mandrill_ctools_plugin_directory($owner, $plugin_type) {
++  if ($owner === 'key') {
++    return "plugins/{$plugin_type}";
++  }
++}
++
++/**
+  * Access callback for sending test email.
+  *
+  * @return bool
+@@ -85,6 +94,9 @@ function mandrill_libraries_info() {
  function mandrill_test_access() {
    $a = user_access('administer mandrill');
    $b = variable_get('mandrill_api_key');
@@ -28,10 +44,10 @@ index 0c7428f..0b40278 100644
 +  }
    return $a & !empty($b);
  }
- 
-@@ -287,6 +290,9 @@ function mandrill_get_api_object($reset = FALSE) {
+
+@@ -287,6 +299,9 @@ function mandrill_get_api_object($reset = FALSE) {
      }
- 
+
      $api_key = variable_get('mandrill_api_key', '');
 +    if (module_exists('key') && $key_value = key_get_key_value($api_key)) {
 +      $api_key = $key_value;
@@ -52,7 +68,7 @@ index ddb8b89..e1b9733 100644
 +  }
    return $a & !empty($b);
  }
- 
+
 diff --git a/plugins/key_type/mandrill_api.inc b/plugins/key_type/mandrill_api.inc
 new file mode 100644
 index 0000000..9bd1987
