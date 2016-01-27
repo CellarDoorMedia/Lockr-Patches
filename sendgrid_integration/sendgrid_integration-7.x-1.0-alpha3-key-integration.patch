@@ -4,7 +4,7 @@ index 2233987..c725e0f 100644
 +++ b/inc/sendgrid.mail.inc
 @@ -22,6 +22,9 @@ class SendGridMailSystem implements MailSystemInterface {
    public function mail(array $message) {
- 
+
      $key_secret = variable_get('sendgrid_integration_apikey', '');
 +    if (module_exists('key') && $key_value = key_get_key_value($key_secret)) {
 +      $key_secret = $key_value;
@@ -68,12 +68,12 @@ index 0000000..b165fc8
 +  ),
 +);
 diff --git a/sendgrid_integration.module b/sendgrid_integration.module
-index 4ac8254..f793c34 100644
+index 4ac8254..f750d21 100644
 --- a/sendgrid_integration.module
 +++ b/sendgrid_integration.module
 @@ -67,11 +67,12 @@ function sendgrid_integration_admin() {
    );
- 
+
    $form['authentication']['sendgrid_integration_apikey'] = array(
 -    '#type' => 'password',
 +    '#type' => array_key_exists('key_select', module_invoke_all('element_info')) ? 'key_select' : 'password',
@@ -83,15 +83,31 @@ index 4ac8254..f793c34 100644
      '#default_value' => variable_get('sendgrid_integration_apikey', ''),
 +    '#key_filters' => array('type' => 'sendgrid_integration_api'),
    );
- 
+
    return system_settings_form($form);
-@@ -144,6 +145,9 @@ function sendgrid_integration_get_bounces($start_date, $end_date, $type = NULL,
+@@ -104,6 +105,15 @@ function sendgrid_integration_cron_queue_info() {
+ }
+
+ /**
++ * Implements hook_ctools_plugin_directory().
++ */
++function sendgrid_integration_ctools_plugin_directory($owner, $plugin_type) {
++  if ($owner === 'key') {
++    return "plugins/{$plugin_type}";
++  }
++}
++
++/**
+  * Cron queue worker callback function.
+  * Tries to send email again, if it previously failed with good reason.
+  */
+@@ -144,6 +154,9 @@ function sendgrid_integration_get_bounces($start_date, $end_date, $type = NULL,
    $server = "https://sendgrid.com/api/bounces.get.json";
    $user = variable_get('sendgrid_integration_username', '');
    $key = variable_get('sendgrid_integration_apikey', '');
 +  if (module_exists('key') && $key_value = key_get_key_value($key)) {
 +    $key = $key_value;
 +  }
- 
+
    if (isset($start_date) == FALSE || isset($end_date) == FALSE) {
      watchdog('SendGrid Integration', 'Error on calling get_bounches: Missing date parameter', NULL, WATCHDOG_NOTICE, $link = NULL);
