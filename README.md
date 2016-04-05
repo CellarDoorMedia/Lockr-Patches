@@ -29,7 +29,7 @@ Information on modules patched for use with Lockr and Key.
 ### Acquia Connector
 
 Status: pending  
-Project page: [https://www.drupal.org/project/acquia\_connector]()
+Project page: [https://www.drupal.org/project/acquia\_connector][]
 
 ### Backup and Migrate
 
