@@ -10,7 +10,7 @@ Information on modules patched for use with Lockr and Key.
 - [Commerce PayPal](#commerce-paypal)
 - [MailChimp](#mailchimp)
 - [Mandrill](#mandrill)
-- [SendGride Integration](#sendgrid-integration)
+- [SendGrid Integration](#sendgrid-integration)
 - [SMTP Authentication Support](#smtp-authentication-support)
 
 ### Backup and Migrate
