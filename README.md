@@ -28,100 +28,100 @@ Information on modules patched for use with Lockr and Key.
 
 ### Acquia Connector
 
-Status: pending
+Status: pending  
 Project page: [https://www.drupal.org/project/acquia\_connector]()
 
 ### Backup and Migrate
 
-Versions patched: 7.x-3.1
+Versions patched: 7.x-3.1  
 Project page: [https://www.drupal.org/project/backup\_migrate]()
 
 ### Buckaroo Payment
 
-Status: pending
+Status: pending  
 Project page: [https://www.drupal.org/project/buckaroo\_payment]()
 
 ### Commerce Authorize.Net
 
-Versions patched: 7.x-1.3
+Versions patched: 7.x-1.3  
 Project page: [https://www.drupal.org/project/commerce\_authnet]()
 
 ### Commerce ConnectShip
 
-Status: pending
+Status: pending  
 Project page: [https://www.drupal.org/project/commerce\_connectship]()
 
 ### Commerce FedEx
 
-Status: pending
+Status: pending  
 Project page: [https://www.drupal.org/project/commerce\_fedex]()
 
 ### Commerce Kiala
 
-Status: pending
+Status: pending  
 Project page: [https://www.drupal.org/project/commerce\_kiala]()
 
 ### Commerce PayPal
 
-Versions patched: 7.x-2.3
+Versions patched: 7.x-2.3  
 Project page: [https://www.drupal.org/project/commerce\_paypal]()
 
 ### Commerce UPS
 
-Status: pending
+Status: pending  
 Project page: [https://www.drupal.org/project/commerce\_ups]()
 
 ### Disqus
 
-Status: pending
+Status: pending  
 Project page: [https://www.drupal.org/project/disqus]()
 
 ### Elasticsearch Connector
 
-Status: pending
+Status: pending  
 Project page: [https://www.drupal.org/project/elasticsearch\_connector]()
 
 ### Ingenico
 
-Status: pending
+Status: pending  
 Project page: [https://www.drupal.org/project/ingenico]()
 
 ### MailChimp
 
-Versions patched: 7.x-3.6
+Versions patched: 7.x-3.6  
 Project page: [https://www.drupal.org/project/mailchimp]()
 
 ### Mailgun
 
-Status: pending
+Status: pending  
 Project page: [https://www.drupal.org/project/mailgun]()
 
 ### Mandrill
 
-Versions patched: 7.x-2.2
+Versions patched: 7.x-2.2  
 Project page: [https://www.drupal.org/project/mandrill]()
 
 ### Mollie Payment
 
-Status: pending
+Status: pending  
 Project page: [https://www.drupal.org/project/mollie\_payment]()
 
 ### SendGrid Integration
 
-Versions patched: 7.x-1.0-alpha3
+Versions patched: 7.x-1.0-alpha3  
 Project page: [https://www.drupal.org/project/sendgrid\_integration]()
 
 ### SMTP Authentication Support
 
-Versions patched: 7.x-1.2
+Versions patched: 7.x-1.2  
 Project page: [https://www.drupal.org/project/smtp]()
 
 ### Twitter
 
-Status: pending
+Status: pending  
 Project page: [https://www.drupal.org/project/twitter]()
 
 ### Varnish
 
-Status: pending
+Status: pending  
 Project page: [https://www.drupal.org/project/varnish]()
