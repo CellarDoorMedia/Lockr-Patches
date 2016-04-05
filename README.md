@@ -34,94 +34,94 @@ Project page: https://www.drupal.org/project/acquia_connector
 ### Backup and Migrate
 
 Versions patched: 7.x-3.1  
-Project page: [https://www.drupal.org/project/backup\_migrate]()
+Project page: https://www.drupal.org/project/backup_migrate
 
 ### Buckaroo Payment
 
 Status: pending  
-Project page: [https://www.drupal.org/project/buckaroo\_payment]()
+Project page: https://www.drupal.org/project/buckaroo_payment
 
 ### Commerce Authorize.Net
 
 Versions patched: 7.x-1.3  
-Project page: [https://www.drupal.org/project/commerce\_authnet]()
+Project page: https://www.drupal.org/project/commerce_authnet
 
 ### Commerce ConnectShip
 
 Status: pending  
-Project page: [https://www.drupal.org/project/commerce\_connectship]()
+Project page: https://www.drupal.org/project/commerce_connectship
 
 ### Commerce FedEx
 
 Status: pending  
-Project page: [https://www.drupal.org/project/commerce\_fedex]()
+Project page: https://www.drupal.org/project/commerce_fedex
 
 ### Commerce Kiala
 
 Status: pending  
-Project page: [https://www.drupal.org/project/commerce\_kiala]()
+Project page: https://www.drupal.org/project/commerce_kiala
 
 ### Commerce PayPal
 
 Versions patched: 7.x-2.3  
-Project page: [https://www.drupal.org/project/commerce\_paypal]()
+Project page: https://www.drupal.org/project/commerce_paypal
 
 ### Commerce UPS
 
 Status: pending  
-Project page: [https://www.drupal.org/project/commerce\_ups]()
+Project page: https://www.drupal.org/project/commerce_ups
 
 ### Disqus
 
 Status: pending  
-Project page: [https://www.drupal.org/project/disqus]()
+Project page: https://www.drupal.org/project/disqus
 
 ### Elasticsearch Connector
 
 Status: pending  
-Project page: [https://www.drupal.org/project/elasticsearch\_connector]()
+Project page: https://www.drupal.org/project/elasticsearch_connector
 
 ### Ingenico
 
 Status: pending  
-Project page: [https://www.drupal.org/project/ingenico]()
+Project page: https://www.drupal.org/project/ingenico
 
 ### MailChimp
 
 Versions patched: 7.x-3.6  
-Project page: [https://www.drupal.org/project/mailchimp]()
+Project page: https://www.drupal.org/project/mailchimp
 
 ### Mailgun
 
 Status: pending  
-Project page: [https://www.drupal.org/project/mailgun]()
+Project page: https://www.drupal.org/project/mailgun
 
 ### Mandrill
 
 Versions patched: 7.x-2.2  
-Project page: [https://www.drupal.org/project/mandrill]()
+Project page: https://www.drupal.org/project/mandrill
 
 ### Mollie Payment
 
 Status: pending  
-Project page: [https://www.drupal.org/project/mollie\_payment]()
+Project page: https://www.drupal.org/project/mollie_payment
 
 ### SendGrid Integration
 
 Versions patched: 7.x-1.0-alpha3  
-Project page: [https://www.drupal.org/project/sendgrid\_integration]()
+Project page: https://www.drupal.org/project/sendgrid_integration
 
 ### SMTP Authentication Support
 
 Versions patched: 7.x-1.2  
-Project page: [https://www.drupal.org/project/smtp]()
+Project page: https://www.drupal.org/project/smtp
 
 ### Twitter
 
 Status: pending  
-Project page: [https://www.drupal.org/project/twitter]()
+Project page: https://www.drupal.org/project/twitter
 
 ### Varnish
 
 Status: pending  
-Project page: [https://www.drupal.org/project/varnish]()
+Project page: https://www.drupal.org/project/varnish
