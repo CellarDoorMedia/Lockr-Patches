@@ -116,6 +116,11 @@ Project page: https://www.drupal.org/project/sendgrid_integration
 Versions patched: 7.x-1.2  
 Project page: https://www.drupal.org/project/smtp
 
+### Sparkpost email
+
+Versions patched: 7.x-1.x-dev
+Project page: https://www.drupal.org/project/sparkpost
+
 ### Twitter
 
 Status: pending  
