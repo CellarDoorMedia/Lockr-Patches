@@ -1,18 +1,8 @@
 diff --git a/mailgun.admin.inc b/mailgun.admin.inc
-index ae42721..0280f30 100644
+index ae42721..692d2db 100644
 --- a/mailgun.admin.inc
 +++ b/mailgun.admin.inc
-@@ -24,6 +24,9 @@ function mailgun_admin_settings($form, &$form_state) {
-   }
- 
-   $key = variable_get('mailgun_api_key', '');
-+  if (module_exists('key') && $key_value = key_get_key_value($key)) {
-+    $key = $key_value;
-+  }
- 
-   $form['mailgun_api_key'] = array(
-     '#title' => t('Mailgun API key'),
-@@ -33,6 +36,11 @@ function mailgun_admin_settings($form, &$form_state) {
+@@ -33,6 +33,11 @@ function mailgun_admin_settings($form, &$form_state) {
      '#required' => TRUE,
    );
  
@@ -24,7 +14,7 @@ index ae42721..0280f30 100644
    // Display settings only when a valid API key is present.
    if (!empty($key)) {
      $form['mailgun_queue'] = array(
-@@ -111,8 +119,11 @@ function mailgun_admin_settings($form, &$form_state) {
+@@ -111,8 +116,11 @@ function mailgun_admin_settings($form, &$form_state) {
  function mailgun_admin_settings_validate($form, &$form_state) {
    if ($form['mailgun_api_key']['#default_value'] != $form_state['values']['mailgun_api_key']) {
      // The API key has changed. Perform validation.
