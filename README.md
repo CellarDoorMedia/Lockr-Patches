@@ -93,7 +93,7 @@ Project page: https://www.drupal.org/project/mailchimp
 
 ### Mailgun
 
-Status: pending  
+Versions patched: 7.x-1.5
 Project page: https://www.drupal.org/project/mailgun
 
 ### Mandrill
