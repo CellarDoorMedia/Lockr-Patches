@@ -9,6 +9,8 @@
     "sendgrid_integration": "drupal7/sendgrid_integration/sendgrid_integration-7.x-1.0-alpha3-key-integration.patch",
     "sparkpost": "drupal7/sparkpost/sparkpost-7.x-1.x-dev-key-integration.patch",
     "smtp": "drupal7/smtp/smtp-7.x-1.2-key-integration.patch"
+  },
+  "drupal8": {
   }
 }
 
