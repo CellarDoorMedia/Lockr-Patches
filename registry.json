@@ -4,7 +4,7 @@
   },
   "commerce_authnet": {
     "7.x-1.3": "commerce_authnet/commerce_authnet-7.x-1.3-key-integration.patch",
-    "7.x-1.4": ""
+    "7.x-1.4": "commerce_authnet/commerce_authnet-7.x-1.4-key-integration.patch"
   },
   "commerce_paypal": {
     "7.x-2.3": "commerce_paypal/commerce_paypal-7.x-2.3-key-integration.patch"
