@@ -1,0 +1,32 @@
+diff --git a/sparkpost.admin.inc b/sparkpost.admin.inc
+index 75cf88f..40a90c9 100644
+--- a/sparkpost.admin.inc
++++ b/sparkpost.admin.inc
+@@ -25,6 +25,10 @@ function sparkpost_admin_settings($form, &$form_state) {
+       array('!link' => l(t('Sparkpost settings'), 'https://app.sparkpost.com/account/credentials'))),
+     '#default_value' => $key,
+   );
++  if (array_key_exists('key_select', module_invoke_all('element_info'))) {
++    $form['sparkpost_api_key']['#type'] = 'key_select';
++    unset($form['sparkpost_api_key']['#description']);
++  }
+ 
+   $library_exists = class_exists('\SparkPost\SparkPost');
+ 
+diff --git a/sparkpost.module b/sparkpost.module
+index bbeffad..52c91d4 100644
+--- a/sparkpost.module
++++ b/sparkpost.module
+@@ -136,7 +136,11 @@ function sparkpost_get_to($to) {
+  */
+ function sparkpost_mailsend($message) {
+   $httpAdapter = new \Ivory\HttpAdapter\Guzzle6HttpAdapter(new \GuzzleHttp\Client());
+-  $sparky = new \SparkPost\SparkPost($httpAdapter, ['key' => variable_get('sparkpost_api_key')]);
++  $key = variable_get('sparkpost_api_key');
++  if (module_exists('key') && $key_value = key_get_key_value($key)) {
++    $key = $key_value;
++  }
++  $sparky = new \SparkPost\SparkPost($httpAdapter, ['key' => $key]);
+   try {
+     // Build your email and send it!
+     $results = $sparky->transmission->send($message);

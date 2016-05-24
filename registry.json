@@ -26,7 +26,7 @@
   },
   "sparkpost": {
     "7.x-1.x-dev": "sparkpost/sparkpost-7.x-1.x-dev-key-integration.patch",
-    "7.x-1.0-alpha4": ""
+    "7.x-1.0-alpha4": "sparkpost/sparkpost-7.x-1.0-alpha4-key-integration.patch"
   },
   "smtp": {
     "7.x-1.2": "smtp/smtp-7.x-1.2-key-integration.patch",
