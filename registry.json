@@ -18,7 +18,7 @@
   },
   "mandrill": {
     "7.x-2.2": "mandrill/mandrill-7.x-2.2-key-integration.patch",
-    "7.x-2.3": ""
+    "7.x-2.3": "mandrill/mandrill-7.x-2.3-key-integration.patch"
   },
   "sendgrid_integration": {
     "7.x-1.0-alpha3": "sendgrid_integration/sendgrid_integration-7.x-1.0-alpha3-key-integration.patch",
