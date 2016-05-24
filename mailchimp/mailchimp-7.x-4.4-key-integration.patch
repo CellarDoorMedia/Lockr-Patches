@@ -1,0 +1,31 @@
+diff --git a/includes/mailchimp.admin.inc b/includes/mailchimp.admin.inc
+index fe71189..d8652d8 100644
+--- a/includes/mailchimp.admin.inc
++++ b/includes/mailchimp.admin.inc
+@@ -10,7 +10,8 @@
+  */
+ function mailchimp_admin_settings() {
+   $form['mailchimp_api_key'] = array(
+-    '#type' => 'textfield',
++    // Use the key element, if it is available.
++    '#type' => (array_key_exists('key_select', module_invoke_all('element_info'))) ? 'key_select' : 'textfield',
+     '#title' => t('MailChimp API Key'),
+     '#required' => TRUE,
+     '#default_value' => variable_get('mailchimp_api_key', ''),
+diff --git a/mailchimp.module b/mailchimp.module
+index 10b02ed..3828ddc 100644
+--- a/mailchimp.module
++++ b/mailchimp.module
+@@ -125,6 +125,12 @@ function mailchimp_get_api_object() {
+   }
+ 
+   $api_key = variable_get('mailchimp_api_key', '');
++
++  // Use the Key module, if it is enabled.
++  if (module_exists('key') && $key_value = key_get_key_value($api_key)) {
++    $api_key = $key_value;
++  }
++
+   if (!strlen($api_key)) {
+     watchdog('mailchimp', t('MailChimp Error: API Key cannot be blank.'), array(), WATCHDOG_ERROR);
+     return NULL;
