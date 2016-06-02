@@ -1,1 +1,5 @@
-{}
+{
+  "wp-mail-smtp/wp_mail_smtp.php": {
+    "0.9.5": "wp-mail-smtp/wp-mail-smtp-0.9.5-lockr-integration.patch"
+  }
+}
