@@ -1,0 +1,41 @@
+diff --git a/commerce_ups.admin.inc b/commerce_ups.admin.inc
+index 1196036..a01f125 100644
+--- a/commerce_ups.admin.inc
++++ b/commerce_ups.admin.inc
+@@ -16,7 +16,7 @@ function commerce_ups_settings_form($form, &$form_state) {
+   );
+ 
+   $encrypted = variable_get('commerce_ups_encrypt', FALSE);
+-  $api_vars = commerce_ups_decrypt_vars(FALSE);
++  $api_vars = commerce_ups_decrypt_vars(TRUE);
+ 
+   $form['api']['commerce_ups_account_id'] = array(
+     '#type' => 'textfield',
+@@ -31,9 +31,10 @@ function commerce_ups_settings_form($form, &$form_state) {
+     '#required' => TRUE,
+   );
+   $form['api']['commerce_ups_password'] = array(
+-    '#type' => 'password',
++    '#type' => array_key_exists('key_select', module_invoke_all('element_info')) ? 'key_select' : 'password',
+     '#title' => t('Password'),
+-    '#required' => !variable_get('commerce_ups_password', FALSE),
++    '#required' => module_exists('key') ? TRUE : !variable_get('commerce_ups_password', FALSE),
++    '#default_value' => module_exists('key') ? $api_vars['ups_password'] : NULL,
+     '#description' => t('Please leave blank if you do not want to update your password at this time.'),
+   );
+   $form['api']['commerce_ups_access_key'] = array(
+diff --git a/commerce_ups.xml.inc b/commerce_ups.xml.inc
+index dfdd8a4..f5d14e5 100644
+--- a/commerce_ups.xml.inc
++++ b/commerce_ups.xml.inc
+@@ -58,6 +58,10 @@ function commerce_ups_build_rate_request($order) {
+ 
+   $api_vars = commerce_ups_decrypt_vars(TRUE);
+ 
++  if (module_exists('key') && $key_value = key_get_key_value($api_vars['ups_password'])) {
++    $api_vars['ups_password'] = $key_value;
++  }
++
+   $access_request = new SimpleXMLElement('<AccessRequest/>');
+   $access_request->addChild('AccessLicenseNumber', $api_vars['ups_accesskey']);
+   $access_request->addChild('UserId', $api_vars['ups_userid']);

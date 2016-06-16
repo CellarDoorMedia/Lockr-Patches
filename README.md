@@ -68,7 +68,7 @@ Project page: https://www.drupal.org/project/commerce_paypal
 
 ### Commerce UPS
 
-Status: pending  
+Status: 7.x-2.0
 Project page: https://www.drupal.org/project/commerce_ups
 
 ### Disqus
