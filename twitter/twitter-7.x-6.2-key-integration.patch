@@ -1,0 +1,67 @@
+diff --git a/twitter.pages.inc b/twitter.pages.inc
+index 81cab6a..b2e3013 100644
+--- a/twitter.pages.inc
++++ b/twitter.pages.inc
+@@ -54,7 +54,7 @@ function twitter_admin_form($form, &$form_state) {
+     '#default_value' => variable_get('twitter_consumer_key', NULL),
+   );
+   $form['oauth']['twitter_consumer_secret'] = array(
+-    '#type' => 'textfield',
++    '#type' => (array_key_exists('key_select', module_invoke_all('element_info'))) ? 'key_select' : 'textfield',
+     '#title' => t('OAuth Consumer secret'),
+     '#default_value' => variable_get('twitter_consumer_secret', NULL),
+   );
+@@ -406,6 +406,9 @@ function twitter_auth_account_form_validate($form, &$form_state) {
+ function twitter_auth_account_form_submit($form, &$form_state) {
+   $key = variable_get('twitter_consumer_key', '');
+   $secret = variable_get('twitter_consumer_secret', '');
++  if (module_exists('key') && $key_value = key_get_key_value($secret)) {
++    $secret = $key_value;
++  }
+   $oauth_callback = variable_get('twitter_oauth_callback_url', TWITTER_OAUTH_CALLBACK_URL);
+   $callback_url = url($oauth_callback, array('absolute' => TRUE));
+ 
+@@ -471,6 +474,9 @@ function twitter_oauth_callback_form($form, &$form_state) {
+ function twitter_oauth_callback_form_validate($form, &$form_state) {
+   $key = variable_get('twitter_consumer_key', '');
+   $secret = variable_get('twitter_consumer_secret', '');
++  if (module_exists('key') && $key_value = key_get_key_value($secret)) {
++    $secret = $key_value;
++  }
+ 
+   if (isset($_SESSION['twitter_oauth'])) {
+     $form_state['twitter_oauth'] = $_SESSION['twitter_oauth'];
+@@ -516,6 +522,9 @@ function twitter_oauth_callback_form_validate($form, &$form_state) {
+ function twitter_oauth_callback_form_submit($form, &$form_state) {
+   $key = variable_get('twitter_consumer_key', '');
+   $secret = variable_get('twitter_consumer_secret', '');
++  if (module_exists('key') && $key_value = key_get_key_value($secret)) {
++    $secret = $key_value;
++  }
+   $response = $form_state['twitter_oauth']['response'];
+ 
+   $twitter = new Twitter($key, $secret, $response['oauth_token'], $response['oauth_token_secret']);
+diff --git a/twitter_signin/twitter_signin.module b/twitter_signin/twitter_signin.module
+index 2b97f2f..eb22b98 100644
+--- a/twitter_signin/twitter_signin.module
++++ b/twitter_signin/twitter_signin.module
+@@ -100,6 +100,9 @@ function twitter_signin_redirect() {
+ 
+   $key = variable_get('twitter_consumer_key', '');
+   $secret = variable_get('twitter_consumer_secret', '');
++  if (module_exists('key') && $key_value = key_get_key_value($secret)) {
++    $secret = $key_value;
++  }
+   $twitter = new Twitter($key, $secret);
+ 
+   // Specify a callback_url when generating our token that will match the
+@@ -296,6 +299,9 @@ function _twitter_signin_add_account($edit, $account) {
+     module_load_include('inc', 'twitter');
+     $key = variable_get('twitter_consumer_key', '');
+     $secret = variable_get('twitter_consumer_secret', '');
++    if (module_exists('key') && $key_value = key_get_key_value($secret)) {
++      $secret = $key_value;
++    }
+     $response = $_SESSION['twitter']['values'];
+ 
+     $twitter = new Twitter($key, $secret, $response['oauth_token'], $response['oauth_token_secret']);

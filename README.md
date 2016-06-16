@@ -123,7 +123,7 @@ Project page: https://www.drupal.org/project/sparkpost
 
 ### Twitter
 
-Status: 7.x-5.9
+Status: 7.x-5.9, 7.x-6.2
 Project page: https://www.drupal.org/project/twitter
 
 ### Varnish
