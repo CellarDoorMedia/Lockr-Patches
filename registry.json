@@ -31,6 +31,9 @@
   "smtp": {
     "7.x-1.2": "smtp/smtp-7.x-1.2-key-integration.patch",
     "7.x-1.4": "smtp/smtp-7.x-1.4-key-integration.patch"
+  },
+  "twitter": {
+    "7.x-5.9": "twitter/twitter-7.x-5.9-key-integration.patch"
   }
 }
 
