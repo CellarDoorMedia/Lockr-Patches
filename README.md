@@ -53,7 +53,7 @@ Project page: https://www.drupal.org/project/commerce_connectship
 
 ### Commerce FedEx
 
-Status: pending  
+Status: 7.x-1.x-dev
 Project page: https://www.drupal.org/project/commerce_fedex
 
 ### Commerce Kiala

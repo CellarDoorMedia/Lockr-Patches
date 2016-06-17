@@ -1,0 +1,54 @@
+diff --git a/includes/commerce_fedex.admin.inc b/includes/commerce_fedex.admin.inc
+index 61466b3..21a4f95 100644
+--- a/includes/commerce_fedex.admin.inc
++++ b/includes/commerce_fedex.admin.inc
+@@ -51,11 +51,20 @@ function commerce_fedex_settings_form() {
+       )
+     )
+   );
+-  $form['auth']['production']['commerce_fedex_password'] = array(
+-    '#type' => 'password',
+-    '#title' => t('FedEx Password'),
+-    '#description' => variable_get('commerce_fedex_password') ? t('FedEx password has been set. Leave blank unless you want to change the saved password.') : NULL,
+-  );
++  if (module_exists('key')) {
++    $form['auth']['production']['commerce_fedex_password'] = array(
++      '#type' => 'key_select',
++      '#title' => t('FedEx Password'),
++      '#default_value' => variable_get('commerce_fedex_password'),
++    );
++  }
++  else {
++    $form['auth']['production']['commerce_fedex_password'] = array(
++      '#type' => 'password',
++      '#title' => t('FedEx Password'),
++      '#description' => variable_get('commerce_fedex_password') ? t('FedEx password has been set. Leave blank unless you want to change the saved password.') : NULL,
++    );
++  }
+   $form['auth']['production']['commerce_fedex_account_number'] = array(
+     '#type' => 'textfield',
+     '#title' => t('FedEx Account Number'),
+diff --git a/includes/commerce_fedex_soap_client.inc b/includes/commerce_fedex_soap_client.inc
+index 5f902b3..98827c0 100644
+--- a/includes/commerce_fedex_soap_client.inc
++++ b/includes/commerce_fedex_soap_client.inc
+@@ -174,11 +174,18 @@ function _commerce_fedex_soap_authentication() {
+     $mode = '_' . $request_mode;
+   }
+ 
++  $password = variable_get('commerce_fedex_password' . $mode, NULL);
++  if ($request_mode === 'production') {
++    if (module_exists('key') && $key_value = key_get_key_value($password)) {
++      $password = $key_value;
++    }
++  }
++
+   // Add the FedEx web services key and password credentials.
+   $authentication['WebAuthenticationDetail'] = array(
+     'UserCredential' => array(
+       'Key' => variable_get('commerce_fedex_key' . $mode, NULL),
+-      'Password' => variable_get('commerce_fedex_password' . $mode, NULL),
++      'Password' => $password,
+     ),
+   );
+ 
