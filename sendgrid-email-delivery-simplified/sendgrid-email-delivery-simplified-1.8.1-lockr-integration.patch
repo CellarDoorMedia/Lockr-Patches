@@ -1,0 +1,117 @@
+diff --git a/lib/class-sendgrid-tools.php b/lib/class-sendgrid-tools.php
+index 0c8bc32..68ffd05 100644
+--- a/lib/class-sendgrid-tools.php
++++ b/lib/class-sendgrid-tools.php
+@@ -261,7 +261,11 @@ class Sendgrid_Tools
+    */
+   public static function get_password()
+   {
+-    if ( defined( 'SENDGRID_PASSWORD' ) ) {
++
++    $lockr = self::check_lockr_status();
++
++    if ( defined( 'SENDGRID_PASSWORD' ) && !$lockr ) {
++
+       return SENDGRID_PASSWORD;
+     } else {
+       $password     = get_option( 'sendgrid_pwd' );
+@@ -271,7 +275,14 @@ class Sendgrid_Tools
+         delete_option( 'sendgrid_password' );
+       }
+ 
+-      $password = get_option( 'sendgrid_pwd' );
++      if ( $lockr ) {
++        lockr_override_option( 'sendgrid_pwd', 'lockr_sendgrid_pwd', 'SendGrid Password' );
++        $password = lockr_get_override_value( 'sendgrid_pwd' );
++      }
++      else{
++        $password = get_option( 'sendgrid_pwd' );
++      }
++
+       return $password;
+     }
+   }
+@@ -283,7 +294,17 @@ class Sendgrid_Tools
+    */
+   public static function set_password( $password )
+   {
+-    return update_option( 'sendgrid_pwd', $password );
++
++    if ( self::check_lockr_status() ) {
++      $key_name = 'lockr_sendgrid_pwd';
++      $key_desc = 'SendGrid Password';
++      if ( lockr_set_key( $key_name, $password, $key_desc ) ) {
++        update_option( 'sendgrid_pwd', $key_name );
++      }
++    }
++    else{
++      return update_option( 'sendgrid_pwd', $password );
++    }
+   }
+ 
+   /**
+@@ -293,7 +314,9 @@ class Sendgrid_Tools
+    */
+   public static function get_api_key()
+   {
+-    if ( defined( 'SENDGRID_API_KEY' ) ) {
++    $lockr = self::check_lockr_status();
++
++    if ( defined( 'SENDGRID_API_KEY' ) && !$lockr ) {
+       return SENDGRID_API_KEY;
+     } else {
+       $apikey     = get_option( 'sendgrid_api_key' );
+@@ -303,7 +326,14 @@ class Sendgrid_Tools
+         delete_option( 'sendgrid_apikey' );
+       }
+ 
+-      $apikey = get_option( 'sendgrid_api_key' );
++      if ( $lockr ) {
++        lockr_override_option( 'sendgrid_api_key', 'lockr_sendgrid_api_key', 'SendGrid API Key' );
++        $apikey = lockr_get_override_value( 'sendgrid_api_key' );
++      }
++      else{
++        $apikey = get_option( 'sendgrid_api_key' );
++      }
++
+       return $apikey;
+     }
+   }
+@@ -315,7 +345,17 @@ class Sendgrid_Tools
+    */
+   public static function set_api_key( $apikey )
+   {
+-    return update_option( 'sendgrid_api_key', $apikey );
++
++    if ( self::check_lockr_status() ) {
++      $key_name = 'lockr_sendgrid_api_key';
++      $key_desc = 'SendGrid API Key';
++      if ( lockr_set_key( $key_name, $apikey, $key_desc ) ) {
++        update_option( 'sendgrid_api_key', $key_name );
++      }
++    }
++    else{
++      return update_option( 'sendgrid_api_key', $apikey );
++    }
+   }
+ 
+   /**
+@@ -640,4 +680,16 @@ class Sendgrid_Tools
+   {
+     return preg_replace('/<(https?:\/\/[^>]*)>/im', '$1', $content);
+   }
+-}
+\ No newline at end of file
++
++  public static function check_lockr_status(){
++    include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
++    if ( is_plugin_active( 'lockr/lockr.php' ) ) {
++      $lockr_dir = WP_PLUGIN_DIR . '/lockr';
++      if ( is_dir( $lockr_dir ) ) {
++        include_once( $lockr_dir . '/lockr.php' );
++        return true;
++      }
++    }
++    return false;
++  }
++}
