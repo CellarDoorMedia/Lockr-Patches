@@ -1,0 +1,60 @@
+diff --git a/lib/wfConfig.php b/lib/wfConfig.php
+index 97255e5..f3dafff 100644
+--- a/lib/wfConfig.php
++++ b/lib/wfConfig.php
+@@ -198,6 +198,17 @@ class wfConfig {
+ 			return;
+ 		}
+ 
++		// If Lockr is available, set the key in lockr
++		if ( $key == 'apiKey' ) {
++			if ( self::check_lockr_status() ){
++				$key_name = 'lockr_wordfence_api';
++				$key_desc = 'Wordfence API Key';
++				if ( lockr_set_key( $key_name, $val, $key_desc ) ) {
++					$val = $key_name;
++				}
++			}
++		}
++
+ 		if (($key == 'apiKey' || $key == 'isPaid') && wfWAF::getInstance() && !WFWAF_SUBDIRECTORY_INSTALL) {
+ 			try {
+ 				wfWAF::getInstance()->getStorageEngine()->setConfig($key, $val);
+@@ -245,6 +256,17 @@ class wfConfig {
+ 			self::$cache[$key] = $val;
+ 		}
+ 		$val = self::$cache[$key];
++
++		// If Lockr is available, get the key from lockr
++		if ( $key == 'apiKey' ) {
++			if ( self::check_lockr_status() ){
++				$new_val = lockr_get_key( $val );
++				if ( $new_val ) {
++					$val = $new_val;
++				}
++			}
++		}
++
+ 		return $val !== null ? $val : $default;
+ 	}
+ 	public static function loadFromDiskCache($key){
+@@ -695,6 +717,19 @@ Options -ExecCGI
+ 		}
+ 		return true;
+ 	}
++
++	public static function check_lockr_status() {
++		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
++		if ( is_plugin_active( 'lockr/lockr.php' ) ) {
++			$lockr_dir = WP_PLUGIN_DIR . '/lockr';
++			if ( is_dir( $lockr_dir ) ) {
++				include_once( $lockr_dir . '/lockr.php' );
++				return true;
++			}
++		}
++		return false;
++	}
++
+ }
+ 
+ class wfConfigException extends Exception {}

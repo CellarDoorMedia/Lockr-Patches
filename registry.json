@@ -5,6 +5,9 @@
   "sucuri-scanner/sucuri.php": {
     "1.8.1": "sucuri-scanner/sucuri-scanner-1.8.1-lockr-integration.patch"
   },
+  "wordfence": {
+    "6.1.12": "wordfence/wordfence-6.1.12-lockr-integration.patch"
+  },
   "wp-mail-smtp/wp_mail_smtp.php": {
     "0.9.5": "wp-mail-smtp/wp-mail-smtp-0.9.5-lockr-integration.patch"
   }
