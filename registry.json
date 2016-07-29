@@ -1,6 +1,6 @@
 {
   "sendgrid-email-delivery-simplified/wpsendgrid.php": {
-    "1.8.1": "sendgrid-email-delivery-simplified-1.8.1-lockr-integration.patch"
+    "1.8.1": "sendgrid-email-delivery-simplified/sendgrid-email-delivery-simplified-1.8.1-lockr-integration.patch"
   },
   "sucuri-scanner/sucuri.php": {
     "1.8.1": "sucuri-scanner/sucuri-scanner-1.8.1-lockr-integration.patch"
