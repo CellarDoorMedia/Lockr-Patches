@@ -1,0 +1,124 @@
+diff --git a/sucuri.php b/sucuri.php
+index a03b237..37e7b3e 100644
+--- a/sucuri.php
++++ b/sucuri.php
+@@ -5511,7 +5511,16 @@ class SucuriScanAPI extends SucuriScanOption
+             SucuriScanEvent::notify_event('plugin_change', 'API key updated successfully: ' . $api_key);
+         }
+ 
+-        return self::update_option(':api_key', $api_key);
++        // Store the key in Lockr if enabled
++        if ( self::check_lockr_status() ) {
++            $key_name = 'lockr_sucuri_api';
++            $key_desc = 'Sucuri API Key';
++            if ( lockr_set_key( $key_name, $api_key, $key_desc ) ) {
++                return self::update_option(':api_key', $key_name);
++            }
++        } else {
++            return self::update_option(':api_key', $api_key);
++        }
+     }
+ 
+     /**
+@@ -5523,6 +5532,14 @@ class SucuriScanAPI extends SucuriScanOption
+     {
+         $api_key = self::get_option(':api_key');
+ 
++        // Get the key from Lockr if Enabled
++        if ( self::check_lockr_status() ) {
++            $remote_key = lockr_get_key( $api_key );
++            if ( $remote_key ) {
++                $api_key = $remote_key;
++            }
++        }
++
+         if (is_string($api_key)
+             && self::isValidKey($api_key)
+         ) {
+@@ -5546,6 +5563,14 @@ class SucuriScanAPI extends SucuriScanOption
+         $option_name = ':cloudproxy_apikey';
+         $api_key = self::get_option($option_name);
+ 
++        //Get the key from Lockr if Enabled
++        if ( self::check_lockr_status() ) {
++            $remote_key = lockr_get_key( $api_key );
++            if ( $remote_key ) {
++                $api_key = $remote_key;
++            }
++        }
++
+         // Check the validity of the API key.
+         $match = self::isValidCloudproxyKey($api_key, true);
+ 
+@@ -5582,6 +5607,24 @@ class SucuriScanAPI extends SucuriScanOption
+         return false;
+     }
+ 
++    /**
++     * Check whether the Lockr is enabled on the system.
++     *
++     * @return boolean               true if the Lockr plugin is available and activated.
++     */
++    public static function check_lockr_status()
++    {
++        include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
++        if ( is_plugin_active( 'lockr/lockr.php' ) ) {
++            $lockr_dir = WP_PLUGIN_DIR . '/lockr';
++            if ( is_dir( $lockr_dir ) ) {
++                include_once( $lockr_dir . '/lockr.php' );
++                return true;
++            }
++        }
++        return false;
++    }
++
+     /**
+      * Call an action from the remote API interface of our WordPress service.
+      *
+@@ -9121,7 +9164,15 @@ function sucuriscan_firewall_form_submissions($nonce)
+             $api_key = trim($api_key);
+ 
+             if (SucuriScanAPI::isValidCloudproxyKey($api_key)) {
+-                SucuriScanOption::update_option($option_name, $api_key);
++                if ( self::check_lockr_status() ) {
++                    $key_name = 'lockr_sucuri_cloudproxy_api';
++                    $key_desc = 'Sucuri Cloudproxy API Key';
++                    if ( lockr_set_key( $key_name, $api_key, $key_desc ) ) {
++                        SucuriScanOption::update_option($option_name, $key_name);
++                    }
++                } else {
++                    SucuriScanOption::update_option($option_name, $api_key);
++                }
+                 SucuriScanInterface::info('CloudProxy API key saved successfully');
+                 SucuriScanOption::setRevProxy('enable');
+                 SucuriScanOption::setAddrHeader('HTTP_X_SUCURI_CLIENTIP');
+@@ -9132,7 +9183,14 @@ function sucuriscan_firewall_form_submissions($nonce)
+ 
+         // Delete CloudProxy API key from the plugin.
+         if (SucuriScanRequest::post(':delete_wafkey') !== false) {
+-            SucuriScanOption::delete_option($option_name);
++            if ( self::check_lockr_status() ) {
++                $key_name = 'lockr_sucuri_cloudproxy_api';
++                if ( lockr_delete_key( $key_name ) ) {
++                    SucuriScanOption::delete_option($option_name);
++                }
++            } else{
++                SucuriScanOption::delete_option($option_name);
++            }
+             SucuriScanInterface::info('CloudProxy API key removed successfully');
+             SucuriScanOption::setRevProxy('disable');
+             SucuriScanOption::setAddrHeader('REMOTE_ADDR');
+@@ -13008,7 +13066,12 @@ function sucuriscan_settings_general_apikey($nonce)
+         $invalid_domain = (bool) ($domain_address === $clean_domain);
+     }
+ 
+-    $params['APIKey'] = (!$api_key ? '(not set)' : $api_key);
++    //Obscure the API key for display
++    if ( $api_key ) {
++	    $api_key_obscure = '****************************' . substr($api_key, -4);
++    }
++
++    $params['APIKey'] = (!$api_key ? '(not set)' : $api_key_obscure);
+     $params['APIKey.RecoverVisibility'] = SucuriScanTemplate::visibility(!$api_key && !$display_manual_key_form);
+     $params['APIKey.ManualKeyFormVisibility'] = SucuriScanTemplate::visibility($display_manual_key_form);
+     $params['APIKey.RemoveVisibility'] = SucuriScanTemplate::visibility((bool) $api_key);
