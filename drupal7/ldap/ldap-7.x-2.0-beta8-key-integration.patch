@@ -1,0 +1,32 @@
+diff --git a/ldap_servers/LdapServer.class.php b/ldap_servers/LdapServer.class.php
+index 514a7b6..7712489 100644
+--- a/ldap_servers/LdapServer.class.php
++++ b/ldap_servers/LdapServer.class.php
+@@ -342,6 +342,10 @@ class LdapServer {
+       $userdn = ($userdn != NULL) ? $userdn : $this->binddn;
+       $pass = ($pass != NULL) ? $pass : $this->bindpw;
+ 
++      if (module_exists('key') && $key_value = key_get_key_value($pass)) {
++        $pass = $key_value;
++      }
++
+       if ($this->followrefs) {
+         $rebHandler = new LdapServersRebindHandler($userdn, $pass);
+         ldap_set_rebind_proc($this->connection, array($rebHandler, 'rebind_callback'));
+diff --git a/ldap_servers/LdapServerAdmin.class.php b/ldap_servers/LdapServerAdmin.class.php
+index be8c2e7..d38e932 100644
+--- a/ldap_servers/LdapServerAdmin.class.php
++++ b/ldap_servers/LdapServerAdmin.class.php
+@@ -1238,6 +1238,12 @@ public function drupalFormSubmit($op, $values) {
+ 
+     );
+ 
++    if (array_key_exists('key_select', module_invoke_all('element_info'))) {
++      $fields['bindpw']['form']['#type'] = 'key_select';
++      unset($fields['bindpw']['form']['#size']);
++      unset($fields['clear_bindpw']);
++    }
++
+   return $fields;
+ 
+   }
