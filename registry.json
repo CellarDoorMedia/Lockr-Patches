@@ -16,7 +16,8 @@
     "7.x-2.0": "commerce_ups/commerce_ups-7.x-2.0-key-integration.patch"
   },
   "ldap": {
-    "7.x-2.0-beta8": "ldap/ldap-7.x-2.0-beta8-key-integration.patch"
+    "7.x-2.0-beta8": "ldap/ldap-7.x-2.0-beta8-key-integration.patch",
+    "7.x-2.2": "ldap/ldap-7.x-2.2-key-integration.patch"
   },
   "mailchimp": {
     "7.x-3.6": "mailchimp/mailchimp-7.x-3.6-key-integration.patch",
