@@ -1,0 +1,70 @@
+diff --git a/webform_stripe.admin.inc b/webform_stripe.admin.inc
+index 9d118b5..de87104 100644
+--- a/webform_stripe.admin.inc
++++ b/webform_stripe.admin.inc
+@@ -18,8 +18,10 @@ function webform_stripe_settings_form() {
+     '#default_value' => variable_get('webform_stripe_test_publishable_key', ''),
+     '#required' => TRUE,
+   );
++  $all_elements = module_invoke_all('element_info');
++  $has_key_select = array_key_exists('key_select', $all_elements);
+   $form['keys']['webform_stripe_test_secret_key'] = array(
+-    '#type' => 'textfield',
++    '#type' => $has_key_select ? 'key_select' : 'textfield',
+     '#title' => t('Test Secret Key'),
+     '#default_value' => variable_get('webform_stripe_test_secret_key', ''),
+     '#required' => TRUE,
+@@ -31,7 +33,7 @@ function webform_stripe_settings_form() {
+     '#required' => TRUE,
+   );
+   $form['keys']['webform_stripe_live_secret_key'] = array(
+-    '#type' => 'textfield',
++    '#type' => $has_key_select ? 'key_select' : 'textfield',
+     '#title' => t('Live Secret Key'),
+     '#default_value' => variable_get('webform_stripe_live_secret_key', ''),
+     '#required' => TRUE,
+diff --git a/webform_stripe.install b/webform_stripe.install
+index e8df9be..7210333 100644
+--- a/webform_stripe.install
++++ b/webform_stripe.install
+@@ -239,7 +239,11 @@ function webform_stripe_update_7005() {
+     $value = unserialize($data->data);
+     if (!empty($value['charge']) && !isset($value['amount'])) {
+       try {
+-        \Stripe\Stripe::setApiKey(!empty($value['test']) ? variable_get('webform_stripe_test_secret_key', '') : variable_get('webform_stripe_live_secret_key', ''));
++        $secret_key = !empty($value['test']) ? variable_get('webform_stripe_test_secret_key', '') : variable_get('webform_stripe_live_secret_key', '');
++        if (module_exists('key') && $key_value = key_get_key_value($secret_key)) {
++          $secret_key = $key_value;
++        }
++        \Stripe\Stripe::setApiKey($secret_key);
+         $charge = \Stripe\Charge::retrieve($value['charge']);
+         $value['amount'] = $charge->amount;
+         $value['currency'] = $charge->currency;
+diff --git a/webform_stripe.webform.inc b/webform_stripe.webform.inc
+index d34a32e..cefc633 100644
+--- a/webform_stripe.webform.inc
++++ b/webform_stripe.webform.inc
+@@ -47,7 +47,9 @@ function _webform_stripe_get_plans($test_mode) {
+ 
+   if (!isset($plans)) {
+     $secret_key = $test_mode ? variable_get('webform_stripe_test_secret_key', '') : variable_get('webform_stripe_live_secret_key', '');
+-
++    if (module_exists('key') && $key_value = key_get_key_value($secret_key)) {
++      $secret_key = $key_value;
++    }
+     // Load list of Stripe plans.
+     if (($library = webform_stripe_load_library()) && $library['loaded'] && !empty($secret_key)) {
+       \Stripe\Stripe::setApiKey($secret_key);
+@@ -1219,7 +1221,11 @@ function _webform_stripe_process_token(&$form, &$form_state) {
+   webform_stripe_load_library();
+ 
+   // Set secret key.
+-  \Stripe\Stripe::setApiKey($component['extra']['test_mode'] ? variable_get('webform_stripe_test_secret_key', '') : variable_get('webform_stripe_live_secret_key', ''));
++  $secret_key = $component['extra']['test_mode'] ? variable_get('webform_stripe_test_secret_key', '') : variable_get('webform_stripe_live_secret_key', '');
++  if (module_exists('key') && $key_value = key_get_key_value($secret_key)) {
++    $secret_key = $key_value;
++  }
++  \Stripe\Stripe::setApiKey($secret_key);
+ 
+   try {
+     // Create a subscription, and save the customer and subscription IDs.
