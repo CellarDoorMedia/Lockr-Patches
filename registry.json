@@ -45,6 +45,9 @@
   "twitter": {
     "7.x-5.9": "twitter/twitter-7.x-5.9-key-integration.patch",
     "7.x-6.2": "twitter/twitter-7.x-6.2-key-integration.patch"
+  },
+  "webform_stripe": {
+    "7.x-1.9": "webform_stripe/webform_stripe-7.x-1.9-key-integration.patch"
   }
 }
 
